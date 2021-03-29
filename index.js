@@ -23,7 +23,7 @@ requestList(GOODREADS_USER_ID, SHELF)
       const updatedReadme = buildReadme(readme, books);
       if (readme !== updatedReadme) {
         core.info(`Writing to ${README_FILE_PATH}`);
-        core.info("output only?", OUTPUT_ONLY);
+        core.info(`output only? ${OUTPUT_ONLY}`);
 
         fs.writeFileSync(README_FILE_PATH, updatedReadme);
 
