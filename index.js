@@ -91,9 +91,9 @@ function buildReadme(template, books) {
     const endIndex = template.indexOf(endTag);
     const replaceContent = buildBookList(books);
     return [
-      template.substring(0, startIndex),
+      template.substring(0 + startTag.length, startIndex),
       replaceContent,
-      template.substring(endIndex + endTag.length),
+      template.substring(endIndex),
     ].join("");
   }
 }
