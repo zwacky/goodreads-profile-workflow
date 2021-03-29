@@ -23,9 +23,9 @@ requestList(GOODREADS_USER_ID, SHELF)
       const updatedReadme = buildReadme(readme, books);
       if (readme !== updatedReadme) {
         core.info(`Writing to ${README_FILE_PATH}`);
-        fs.writeFileSync(README_FILE_PATH, updatedReadme);
+        core.info("output only?", OUTPUT_ONLY);
 
-        core.debug("output only?", OUTPUT_ONLY);
+        fs.writeFileSync(README_FILE_PATH, updatedReadme);
 
         if (!OUTPUT_ONLY) {
           await commitReadme();
