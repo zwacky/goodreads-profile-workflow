@@ -9,13 +9,13 @@ inputs:
     default: "currently-reading"
     required: false
   max_books_count:
-    default: 10
+    default: "10"
     required: false
   readme_file_path:
     default: "./README.md"
     required: false
   output_only:
-    default: false
+    default: "false"
     required: false
 outputs:
   books:
