@@ -8,9 +8,9 @@ const exec = require("./exec");
 
 const GOODREADS_USER_ID = core.getInput("goodreads_user_id");
 const SHELF = core.getInput("shelf");
-const MAX_BOOKS_COUNT = core.getInput("max_books_count");
+const MAX_BOOKS_COUNT = Number.parseInt(core.getInput("max_books_count"));
 const README_FILE_PATH = core.getInput("readme_file_path");
-const OUTPUT_ONLY = core.getInput("output_only");
+const OUTPUT_ONLY = core.getInput("output_only").toLowerCase() === "true";
 const COMMIT_MESSAGE = "Synced and updated with user's goodreads book lists";
 const COMMITTER_USERNAME = "goodreads-books-bot";
 const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
