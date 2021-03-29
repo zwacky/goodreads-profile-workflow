@@ -29,10 +29,11 @@ requestList(GOODREADS_USER_ID, SHELF)
           await commitReadme();
           process.exit(0);
         } else {
+          core.setOutput("books", books);
           core.info(
             "OUTPUT_ONLY: set `results` variable. Readme not committed."
           );
-          core.setOutput("books", JSON.stringify(books));
+          process.exit(0);
         }
       }
     } catch (err) {
