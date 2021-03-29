@@ -1,0 +1,34 @@
+{
+  "name": "goodreads-profile-workflow",
+  "version": "1.0.0",
+  "description": "Show what you're currently reading and recently read on your GitHub profile readme.",
+  "main": "index.js",
+  "engines": { "node": "12.x"},
+  "type": "commonjs",
+  "engineStrict": true,
+  "scripts": {
+    "build": "esbuild index.js --bundle --platform=node --outdir=dist --minify",
+    "watch": "npm run build -- --watch",
+    "local-run": "node local-run.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zwacky/goodreads-profile-workflow.git"
+  },
+  "keywords": [
+    "github actions",
+    "goodreads"
+  ],
+  "author": "Simon Wicki <sim.wicki@gmail.com> (https://twitter.com/zwacky)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zwacky/goodreads-profile-workflow/issues"
+  },
+  "homepage": "https://github.com/zwacky/goodreads-profile-workflow#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "esbuild": "^0.10.2",
+    "fast-xml-parser": "^3.19.0"
+  }
+}
