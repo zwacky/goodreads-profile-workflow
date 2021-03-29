@@ -25,7 +25,7 @@ requestList(GOODREADS_USER_ID, SHELF)
         core.info(`Writing to ${README_FILE_PATH}`);
         fs.writeFileSync(README_FILE_PATH, updatedReadme);
 
-        core.info("output only?", OUTPUT_ONLY);
+        core.debug("output only?", OUTPUT_ONLY);
 
         if (!OUTPUT_ONLY) {
           await commitReadme();
