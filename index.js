@@ -23,25 +23,29 @@ requestList(GOODREADS_USER_ID, SHELF)
       const updatedReadme = buildReadme(readme, books);
       if (readme !== updatedReadme) {
         core.info(`Writing to ${README_FILE_PATH}`);
-        core.info(`output only? ${OUTPUT_ONLY}`);
+        // output the books in the logs
+        core.startGroup("New books found for update");
+        books.forEach((book) => core.info(JSON.stringify(book)));
+        core.endGroup();
 
         fs.writeFileSync(README_FILE_PATH, updatedReadme);
 
         if (!OUTPUT_ONLY) {
           await commitReadme();
-          process.exit(0);
         } else {
           core.setOutput("books", books);
           core.info(
             "OUTPUT_ONLY: set `results` variable. Readme not committed."
           );
-          process.exit(0);
         }
       }
     } catch (err) {
       core.error(err);
       process.exit(1);
     }
+  })
+  .then(() => {
+    process.exit(0);
   })
   .catch((err) => {
     // maybe GOODREADS_USER_ID, SHELF or goodreads itself is not available
