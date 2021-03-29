@@ -2,7 +2,7 @@ name: "Goodreads Profile Workflow"
 author: "Simon Wicki"
 description: "Show what you're currently reading and recently read on your GitHub profile readme"
 inputs:
-  goodreads_user_id: ""
+  goodreads_user_id:
     description: "Your goodreads user id you want to have the lists fetched from (go to 'My Books' to see it in the URL)"
     required: true
   shelf:
