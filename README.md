@@ -6,7 +6,7 @@ Automatically update your README with what you're currently reading—or any oth
 
 ### How to use
 - Go to your repository
-- Add the following section to your **README.md** file, you can give whatever title you want. Just make sure that you use `<!-- GOODREADS-LIST:START --><!-- GOODREADS-LIST:END -->` in your readme. The workflow will replace this comment with the actual blog post list: 
+- Add the following section to your **README.md** file, you can give whatever title you want. Just make sure that you use `<!-- GOODREADS-LIST:START --><!-- GOODREADS-LIST:END -->` in your readme. The workflow will replace this comment with the actual list of currently reading books: 
 
 ```markdown
 ### Books I'm currently reading
