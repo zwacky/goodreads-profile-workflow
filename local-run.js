@@ -19,8 +19,9 @@ fs.writeFile(path.join(__dirname, "test", "README.md"), template, () => {
 	process.env.INPUT_MAX_BOOKS_COUNT = "10";
 	process.env.INPUT_README_FILE_PATH = "./test/README.md";;
 	process.env.INPUT_OUTPUT_ONLY = "true";
+	process.env.INPUT_TEMPLATE = "- [$title]($url) by $author (⭐️$average_rating)";
 
   const testFile = process.env.DIST ? "./dist/index.js" : "./index.js";
-  console.log("Testing: ", testFile);
+  // console.log("Testing: ", testFile);
   require(testFile);
 });

@@ -48,11 +48,12 @@ Here are all the inputs you can change in your goodreads-profile-workflow.yml fi
 | Option | Default Value | Description | Required |
 |--------|--------|--------|--------|
 | `goodreads_user_id` | "" | The Goodreads account ID to fetch the books from. | Yes |
-| `shelf` | "currently-reading" | The Goodreads shelf/list the books are in (default shelves: currently-reading, read, to-read) | No |
-| `max_books_count` | "10" | Max count of books that will be taken from the shelf/list | No |
-| `readme_file_path` | "./README.md" | Path of the readme file you want to update | No |
-| `output_only` | "false" | Usually used together with local-run.js. Sets the generated array as `books` [output variable](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idoutputs) so that it can be consumed in other actions | No |
-| `comment_tag_name` | "GOODREADS-LIST" | Overrides the default comment tag name (`<!-- GOODREADS-LIST:START --><!-- GOODREADS-LIST:END -->`). In case you want to run multiple instances over the same README | No |
+| `shelf` | "`currently-reading`" | The Goodreads shelf/list the books are in (default shelves: currently-reading, read, to-read) | No |
+| `max_books_count` | "`10`" | Max count of books that will be taken from the shelf/list | No |
+| `readme_file_path` | "`./README.md`" | Path of the readme file you want to update | No |
+| `output_only` | "`false`" | Usually used together with local-run.js. Sets the generated array as `books` [output variable](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idoutputs) so that it can be consumed in other actions | No |
+| `comment_tag_name` | "`GOODREADS-LIST`" | Overrides the default comment tag name (`<!-- GOODREADS-LIST:START --><!-- GOODREADS-LIST:END -->`). In case you want to run multiple instances over the same README | No |
+| `template` | "`- [$title]($url) by $author (⭐️$average_rating)`" | The list template written in Markdown.<br><br>**Suported variables:**<br><ul><li>`$title`: Book title</li><li>`$url`: Goodreads URL of the book</li><li>`$author`: Book author</li><li>`$published`: Book's published year</li><li>`$average_rating`: Book's rating on Goodreads</li><li>`$my_rating`: User's rating of the book (from 1-5)</li><li>`$my_rating_stars`: User's rating of the book in emoji star (from ⭐️ to ⭐️⭐️⭐️⭐️⭐️)</li></ul>  | No |
 
 ### More resources
 - Check out gautamkrishnar's [blog-post-workflow](https://github.com/gautamkrishnar/blog-post-workflow) for another great update readme workflow

@@ -11,6 +11,7 @@ const SHELF = core.getInput("shelf");
 const MAX_BOOKS_COUNT = Number.parseInt(core.getInput("max_books_count"));
 const README_FILE_PATH = core.getInput("readme_file_path");
 const OUTPUT_ONLY = core.getInput("output_only").toLowerCase() === "true";
+const TEMPLATE = core.getInput("template") || "- [$title]($url) by $author (⭐️$average_rating)";
 const COMMIT_MESSAGE = "Synced and updated with user's goodreads book lists";
 const COMMITTER_USERNAME = "goodreads-books-bot";
 const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
@@ -102,8 +103,25 @@ function buildReadme(template, books) {
 
 function buildBookList(books) {
   return books
-    .map((book) => `- [${book.title}](${book.link}) by ${book.author_name}`)
+    .map((book) => {
+      return template(TEMPLATE, {
+        title: book.title,
+        url: book.link,
+        author: book.author_name,
+        published_year: book.book_published,
+        average_rating: book.average_rating,
+        my_rating: book.user_rating,
+        my_rating_stars: book.user_rating
+          ? "⭐".repeat(Number.parseInt(book.user_rating || "0"))
+          : "unrated",
+      });
+    })
     .join(`\n`);
+}
+
+function template(template, variables) {
+  const regex = /\$([a-zA-Z_]*)/g;
+  return template.replace(regex, (match, content) => variables[content] || "");
 }
 
 async function commitReadme() {
