@@ -19,6 +19,10 @@ const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
 requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
     try {
+      // check if there are any books in the shelf
+      if (!data.rss.channel.item) {
+        return;
+      }
       const items = Array.isArray(data.rss.channel.item) ? data.rss.channel.item : [data.rss.channel.item];
       const books = items.slice(0, MAX_BOOKS_COUNT);
       const readme = fs.readFileSync(README_FILE_PATH, "utf8");
