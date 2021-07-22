@@ -19,7 +19,8 @@ const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
 requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
     try {
-      const books = data.rss.channel.item.slice(0, MAX_BOOKS_COUNT);
+      const items = Array.isArray(data.rss.channel.item) ? data.rss.channel.item : [data.rss.channel.item];
+      const books = items.slice(0, MAX_BOOKS_COUNT);
       const readme = fs.readFileSync(README_FILE_PATH, "utf8");
       const updatedReadme = buildReadme(readme, books);
       if (readme !== updatedReadme) {
@@ -55,6 +56,7 @@ requestList(GOODREADS_USER_ID, SHELF)
   });
 
 function requestList(userId, shelf) {
+  console.log('shelf', shelf);
   return new Promise((resolve, reject) => {
     https
       .request(
