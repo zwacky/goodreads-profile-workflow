@@ -5,6 +5,7 @@ const fs = require("fs");
 const core = require("@actions/core");
 const parser = require("fast-xml-parser");
 const exec = require("./exec");
+const orderBy = require("lodash/orderBy");
 
 const GOODREADS_USER_ID = core.getInput("goodreads_user_id");
 const SHELF = core.getInput("shelf");
@@ -15,6 +16,7 @@ const TEMPLATE = core.getInput("template") || "- [$title]($url) by $author (â­ï
 const COMMIT_MESSAGE = "Synced and updated with user's goodreads book lists";
 const COMMITTER_USERNAME = "goodreads-books-bot";
 const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
+const SORT_BY_FIELDS = core.getInput("sort_by_fields");
 
 requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
@@ -24,7 +26,8 @@ requestList(GOODREADS_USER_ID, SHELF)
         return;
       }
       const items = Array.isArray(data.rss.channel.item) ? data.rss.channel.item : [data.rss.channel.item];
-      const books = items.slice(0, MAX_BOOKS_COUNT);
+      const sortedBooks = sort(items, SORT_BY_FIELDS);
+      const books = sortedBooks.slice(0, MAX_BOOKS_COUNT);
       const readme = fs.readFileSync(README_FILE_PATH, "utf8");
       const updatedReadme = buildReadme(readme, books);
       if (readme !== updatedReadme) {
@@ -123,6 +126,19 @@ function buildBookList(books) {
       });
     })
     .join(`\n`);
+}
+
+function sort(books, sortString) {
+
+  if (!sortString || 0 === sortString.length) {
+    return books;
+  }
+
+  var tokens =  sortString.split("|");
+  var sortTerms = tokens.map(v => v.replace(/<|>/g, x => ''));
+  // if no simbol is provided will default to desc
+  var sortDirections = tokens.map(v => v.indexOf('<') > -1 ?  'asc' : 'desc');
+  return orderBy(books, sortTerms, sortDirections);
 }
 
 function template(template, variables) {
