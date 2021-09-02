@@ -134,7 +134,7 @@ function sort(books, sortString) {
     return books;
   }
 
-  var tokens =  sortString.split("|");
+  var tokens =  sortString.split(",");
   var sortTerms = tokens.map(v => v.replace(/<|>/g, x => ''));
   // if no simbol is provided will default to desc
   var sortDirections = tokens.map(v => v.indexOf('<') > -1 ?  'asc' : 'desc');
