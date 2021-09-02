@@ -29,6 +29,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "esbuild": "^0.10.2",
-    "fast-xml-parser": "^3.19.0"
+    "fast-xml-parser": "^3.19.0",
+    "lodash": "^4.17.21"
   }
 }

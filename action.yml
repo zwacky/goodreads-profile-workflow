@@ -17,6 +17,9 @@ inputs:
   output_only:
     default: "false"
     required: false
+  sort_by_fields:
+    default: ""
+    required: false
 outputs:
   books:
     description: "stringified JSON of fetched books"
