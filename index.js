@@ -5,14 +5,15 @@ const fs = require("fs");
 const core = require("@actions/core");
 const parser = require("fast-xml-parser");
 const exec = require("./exec");
-const orderBy = require("lodash/orderBy");
 
 const GOODREADS_USER_ID = core.getInput("goodreads_user_id");
 const SHELF = core.getInput("shelf");
 const MAX_BOOKS_COUNT = Number.parseInt(core.getInput("max_books_count"));
 const README_FILE_PATH = core.getInput("readme_file_path");
 const OUTPUT_ONLY = core.getInput("output_only").toLowerCase() === "true";
-const TEMPLATE = core.getInput("template") || "- [$title]($url) by $author (⭐️$average_rating)";
+const TEMPLATE =
+  core.getInput("template") ||
+  "- [$title]($url) by $author (⭐️$average_rating)";
 const COMMIT_MESSAGE = "Synced and updated with user's goodreads book lists";
 const COMMITTER_USERNAME = "goodreads-books-bot";
 const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
@@ -25,8 +26,10 @@ requestList(GOODREADS_USER_ID, SHELF)
       if (!data.rss.channel.item) {
         return;
       }
-      const items = Array.isArray(data.rss.channel.item) ? data.rss.channel.item : [data.rss.channel.item];
-      const sortedBooks = sort(items, SORT_BY_FIELDS);
+      const items = Array.isArray(data.rss.channel.item)
+        ? data.rss.channel.item
+        : [data.rss.channel.item];
+      const sortedBooks = sortBy(items, SORT_BY_FIELDS);
       const books = sortedBooks.slice(0, MAX_BOOKS_COUNT);
       const readme = fs.readFileSync(README_FILE_PATH, "utf8");
       const updatedReadme = buildReadme(readme, books);
@@ -63,13 +66,12 @@ requestList(GOODREADS_USER_ID, SHELF)
   });
 
 function requestList(userId, shelf) {
-  console.log('shelf', shelf);
   return new Promise((resolve, reject) => {
     https
       .request(
         {
           host: "www.goodreads.com",
-          path: `/review/list_rss/${userId}?shelf=${shelf}`,
+          path: `/review/list_rss/${userId}?shelf=${shelf}`
         },
         (response) => {
           let data = "";
@@ -105,7 +107,7 @@ function buildReadme(template, books) {
       `\n`,
       replaceContent,
       `\n`,
-      template.substring(endIndex),
+      template.substring(endIndex)
     ].join("");
   }
 }
@@ -122,23 +124,36 @@ function buildBookList(books) {
         my_rating: book.user_rating,
         my_rating_stars: book.user_rating
           ? "⭐".repeat(Number.parseInt(book.user_rating || "0"))
-          : "unrated",
+          : "unrated"
       });
     })
     .join(`\n`);
 }
 
-function sort(books, sortString) {
-
+function sortBy(books, sortString) {
   if (!sortString || 0 === sortString.length) {
     return books;
   }
-
-  var tokens =  sortString.split(",");
-  var sortTerms = tokens.map(v => v.replace(/<|>/g, x => ''));
-  // if no simbol is provided will default to desc
-  var sortDirections = tokens.map(v => v.indexOf('<') > -1 ?  'asc' : 'desc');
-  return orderBy(books, sortTerms, sortDirections);
+  const tokens = sortString.split(",");
+  const sortProps = tokens.map((v) => ({
+    term: v.replace(/<|>/g, (x) => ""),
+    direction: v.indexOf("<") > -1 ? "asc" : "desc"
+  }));
+  return books.sort((bookA, bookB) => {
+    return sortProps
+      .map((prop) => {
+        const numeric = !isNaN(bookA[prop.term]) && !isNaN(bookB[prop.term]);
+        // -1 ascending
+        //  1 descending
+        const sort = prop.direction === "asc" ? -1 : 1;
+        const termA = String(bookA[prop.term]);
+        const termB = String(bookB[prop.term]);
+        return termB.localeCompare(termA, "en", { numeric }) * sort;
+      })
+      .reduce((root, result) => {
+        return root === 0 ? result : root;
+      }, 0);
+  });
 }
 
 function template(template, variables) {

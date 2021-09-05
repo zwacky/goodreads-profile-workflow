@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Show what you're currently reading and recently read on your GitHub profile readme.",
   "main": "index.js",
-  "engines": { "node": "12.x"},
+  "engines": {
+    "node": "12.x"
+  },
   "type": "commonjs",
   "engineStrict": true,
   "scripts": {
@@ -29,7 +31,6 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "esbuild": "^0.10.2",
-    "fast-xml-parser": "^3.19.0",
-    "lodash": "^4.17.21"
+    "fast-xml-parser": "^3.19.0"
   }
 }
