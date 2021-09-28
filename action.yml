@@ -17,8 +17,14 @@ inputs:
   output_only:
     default: "false"
     required: false
+  comment_tag_name:
+    default: "GOODREADS-LIST"
+    required: false
+  template:
+    default: "- [$title]($url) by $author (⭐️$average_rating)"
+    required: false
   sort_by_fields:
-    default: ""
+    default: ">pubDate"
     required: false
 outputs:
   books:
