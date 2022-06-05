@@ -18,6 +18,12 @@ const COMMIT_MESSAGE = "Synced and updated with user's goodreads book lists";
 const COMMITTER_USERNAME = "goodreads-books-bot";
 const COMMITTER_EMAIL = "goodreads-books-bot@example.com";
 const SORT_BY_FIELDS = core.getInput("sort_by_fields");
+const SORT_FIELDS_BY_DATE = [
+  "pubDate",
+  "user_read_at",
+  "user_date_added",
+  "user_date_created"
+]; // these fields need to be sorted by date values instead of string values
 
 requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
@@ -146,8 +152,21 @@ function sortBy(books, sortString) {
         // -1 ascending
         //  1 descending
         const sort = prop.direction === "asc" ? -1 : 1;
-        const termA = String(bookA[prop.term]);
-        const termB = String(bookB[prop.term]);
+        let termA;
+        let termB;
+
+        // check if the prop is a date prop
+        if (SORT_FIELDS_BY_DATE.includes(prop.term)) {
+          termA = bookA[prop.term]
+            ? new Date(bookA[prop.term]).getTime() + ""
+            : "";
+          termB = bookB[prop.term]
+            ? new Date(bookB[prop.term]).getTime() + ""
+            : "";
+        } else {
+          termA = String(bookA[prop.term]);
+          termB = String(bookB[prop.term]);
+        }
         return termB.localeCompare(termA, "en", { numeric }) * sort;
       })
       .reduce((root, result) => {
