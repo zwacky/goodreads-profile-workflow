@@ -30,7 +30,7 @@ outputs:
   books:
     description: "stringified JSON of fetched books"
 runs:
-  using: "node12"
+  using: "node20"
   main: "dist/index.js"
 branding:
   icon: "book"
