@@ -29,7 +29,7 @@ requestList(GOODREADS_USER_ID, SHELF)
   .then(async (data) => {
     try {
       // check if there are any books in the shelf
-      if (!data.rss.channel.item) {
+      if (!data || !data.rss || !data.rss.channel || !data.rss.channel.item) {
         return;
       }
       const items = Array.isArray(data.rss.channel.item)
