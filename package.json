@@ -4,7 +4,7 @@
   "description": "Show what you're currently reading and recently read on your GitHub profile readme.",
   "main": "index.js",
   "engines": {
-    "node": "12.x"
+    "node": ">=24"
   },
   "type": "commonjs",
   "engineStrict": true,
