@@ -4,7 +4,7 @@
   "description": "Show what you're currently reading and recently read on your GitHub profile readme.",
   "main": "index.js",
   "engines": {
-    "node": ">=24"
+    "node": "24.x"
   },
   "type": "commonjs",
   "engineStrict": true,
@@ -29,8 +29,8 @@
   },
   "homepage": "https://github.com/zwacky/goodreads-profile-workflow#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "esbuild": "^0.10.2",
-    "fast-xml-parser": "^3.19.0"
+    "@actions/core": "^2.0.3",
+    "esbuild": "^0.28.0",
+    "fast-xml-parser": "^5.8.0"
   }
 }
