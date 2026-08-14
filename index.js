@@ -3,8 +3,10 @@
 const https = require("https");
 const fs = require("fs");
 const core = require("@actions/core");
-const parser = require("fast-xml-parser");
+const { XMLParser } = require("fast-xml-parser");
 const exec = require("./exec");
+
+const xmlParser = new XMLParser();
 
 const GOODREADS_USER_ID = core.getInput("goodreads_user_id");
 const SHELF = core.getInput("shelf");
@@ -88,7 +90,7 @@ function requestList(userId, shelf) {
         (response) => {
           let data = "";
           response.on("data", (chunk) => (data += chunk));
-          response.on("end", () => resolve(parser.parse(data)));
+          response.on("end", () => resolve(xmlParser.parse(data)));
           response.on("error", (err) => reject(err));
         }
       )
